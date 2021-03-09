@@ -1,0 +1,24 @@
+{
+	"xsappname": "insaida012-scim",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application",
+	"authorities": ["$ACCEPT_GRANTED_AUTHORITIES"],
+	"scopes": [{
+		"name": "uaa.user",
+		"description": "UAA"
+	}, {
+		"name": "$XSAPPNAME.scim_sc",
+		"description": "scim",
+		"grant-as-authority-to-apps": [
+			"$XSAPPNAME(application,uaa-scimCustomDomain)"
+		]
+	}],
+
+	"role-templates": [{
+		"name": "scim_rt",
+		"description": "role template SCIM",
+		"scope-references": [
+			"uaa.user", "$XSAPPNAME.scim_sc"
+		]
+	}]
+}

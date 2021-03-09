@@ -1,0 +1,8 @@
+{
+    "xsappname": "uaa-scimCustomDomain",
+    "tenant-mode": "dedicated",
+    "scopes": [],
+    "authorities": [
+        "$ACCEPT_GRANTED_AUTHORITIES"
+    ]
+}

@@ -1,0 +1,58 @@
+ID: insaida012-scim
+_schema-version: '2.1'
+description: insaida012-scim
+version: 2.0.1
+modules:
+  - name: insaida012-scim-srv
+    type: java
+    path: srv
+    parameters:
+      memory: 1024M
+    provides:
+      - name: srv_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: insaida012-scim-uaa
+      - name: insaida012-scim-dest
+      - name: insaida012-scim-conn
+      - name: insaida012-scim-log
+    properties:
+      SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
+resources:
+  - name: insaida012-scim-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: application
+      service: xsuaa
+      config:
+        xsappname: 'insaida012-scim-${space}'
+        tenant-mode: dedicated
+      path: ./xs-security.json
+  - name: insaida012-scim-dest
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+  - name: insaida012-scim-conn
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: insaida012-scim-log
+    parameters:
+      service-name: insaida012-scim-log
+      service: application-logs
+      service-plan: lite
+    type: org.cloudfoundry.managed-service
+
+# --------------------- XSUAA Service ------------------------
+  - name: uaa-scimCustomDomain
+# ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+     path: ./xs-security-cc.json
+     service-plan: application
+     service: xsuaa
+     service-keys:
+       - name: uaa-scimCustom
